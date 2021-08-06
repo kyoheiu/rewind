@@ -26,12 +26,12 @@ downGrade result =
   if null result then putStrLn "No such package."
   else
     let ordered = zipWith T.append ["1) ","2) ","3) "] . reverse . sort $ result in
-    mapM_ TIO.putStrLn ordered >> readLn >>= \c ->
+    putStrLn "Enter the number:" >> mapM_ TIO.putStrLn ordered >> readLn >>= \c ->
       case c of
         1 -> doCommand $ result'!!0
         2 -> doCommand $ result'!!1
         3 -> doCommand $ result'!!2
-        _   -> putStrLn "Please choose the number."
+        _   -> putStrLn "Please Enter the number."
         where result' = reverse . sort $ result
               doCommand x = callCommand . T.unpack 
                           . T.append "sudo pacman -U /var/cache/pacman/pkg/" $ x
