@@ -22,7 +22,6 @@ findPkg needle heystack = T.isPrefixOf needle' heystack && not (T.isSuffixOf ".s
   where needle' = T.pack needle
 
 listUp :: [String] -> [T.Text] -> [(String,[T.Text])]
-listUp [] pkgs = []
 listUp as pkgs = map (\a -> (a, filter (findPkg a) pkgs)) as
 
 readInt x = readMaybe x :: Maybe Int
