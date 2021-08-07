@@ -2,12 +2,13 @@
 
 module Main where
 
-import System.Directory
-import System.Environment
 import qualified Data.Text as T
 import qualified Data.Text.IO as TIO
-import Data.List
-import System.Process
+import Data.List (sort)
+import System.Directory (listDirectory)
+import System.Environment (getArgs)
+import System.Process (callCommand)
+import Text.Read (readMaybe)
 
 pkgPath :: FilePath
 pkgPath = "/var/cache/pacman/pkg"
@@ -25,14 +26,22 @@ listUp [] pkgs = []
 listUp (a:as) pkgs = (a, filter (findPkg a) pkgs') : listUp as pkgs
   where pkgs' = map T.pack pkgs
 
+readInt x = readMaybe x :: Maybe Int
+
+getNum :: Int -> IO Int
+getNum n = getLine >>= \x ->
+  case readInt x of
+    Just x' -> if x' <= n then return x'
+              else putStrLn "Invalid number. Re-enter a number." >> getNum n
+    Nothing -> putStrLn "Invalid input. Re-enter a number." >> getNum n
+
 downGrade :: (String, [T.Text]) -> IO ()
 downGrade result =
   if null (snd result) then putStrLn $ fst result ++ ": No such package." 
   else
     let ordered = zipWith T.append order result' in
-    putStrLn fstMessage >> mapM_ TIO.putStrLn ordered >> readLn >>= \c ->
-      if c > length result' then putStrLn "Wrong number."
-      else case c of
+    putStrLn fstMessage >> mapM_ TIO.putStrLn ordered >> getNum (length ordered) >>= \c ->
+      case c of
         1 -> doCommand $ result'!!0
         2 -> doCommand $ result'!!1
         3 -> doCommand $ result'!!2
