@@ -35,6 +35,8 @@ downGrade result =
         1 -> doCommand $ result'!!0
         2 -> doCommand $ result'!!1
         3 -> doCommand $ result'!!2
+        4 -> doCommand $ result'!!3
+        5 -> doCommand $ result'!!4
         _ -> putStrLn "Please Enter a number."
         where result' = reverse . sort . snd $ result
               doCommand x = callCommand . T.unpack 
