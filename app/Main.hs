@@ -35,17 +35,11 @@ getNum n = getLine >>= \x ->
 
 downGrade :: (String, [T.Text]) -> IO ()
 downGrade result =
-  if null (snd result) then putStrLn $ fst result ++ ": No such package." 
+  if null (snd result) then putStrLn $ fst result ++ ": No such package."
   else
     let ordered = zipWith T.append order result' in
     putStrLn fstMessage >> mapM_ TIO.putStrLn ordered >> getNum (length ordered) >>= \c ->
-      case c of
-        1 -> doCommand $ result'!!0
-        2 -> doCommand $ result'!!1
-        3 -> doCommand $ result'!!2
-        4 -> doCommand $ result'!!3
-        5 -> doCommand $ result'!!4
-        _ -> putStrLn "Please Enter a number."
+      doCommand $ result'!!(c-1)
         where result' = reverse . sort . snd $ result
               doCommand x = callCommand . T.unpack 
                           . T.append "sudo pacman -U /var/cache/pacman/pkg/" $ x
