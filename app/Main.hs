@@ -31,7 +31,8 @@ downGrade result =
   else
     let ordered = zipWith T.append order result' in
     putStrLn fstMessage >> mapM_ TIO.putStrLn ordered >> readLn >>= \c ->
-      case c of
+      if c > length result' then putStrLn "Wrong number."
+      else case c of
         1 -> doCommand $ result'!!0
         2 -> doCommand $ result'!!1
         3 -> doCommand $ result'!!2
