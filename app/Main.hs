@@ -45,7 +45,4 @@ main = getArgs >>= \args ->
   case length args of
     0 -> putStrLn "No args."
     _ -> listDirectory pkgPath >>= \pkgs ->
-      let results = listUp args pkgs in
-      case length results of
-        0 -> putStrLn "No such package."
-        _ -> mapM_ downGrade results
+      let results = listUp args pkgs in mapM_ downGrade results
