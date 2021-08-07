@@ -21,10 +21,9 @@ findPkg :: String -> T.Text -> Bool
 findPkg needle heystack = T.isPrefixOf needle' heystack && not (T.isSuffixOf ".sig" heystack)
   where needle' = T.pack needle
 
-listUp :: [String] -> [FilePath] -> [(String,[T.Text])]
+listUp :: [String] -> [T.Text] -> [(String,[T.Text])]
 listUp [] pkgs = []
-listUp (a:as) pkgs = (a, filter (findPkg a) pkgs') : listUp as pkgs
-  where pkgs' = map T.pack pkgs
+listUp as pkgs = map (\a -> (a, filter (findPkg a) pkgs)) as
 
 readInt x = readMaybe x :: Maybe Int
 
@@ -57,4 +56,4 @@ main = getArgs >>= \args ->
   case length args of
     0 -> putStrLn "No args."
     _ -> listDirectory pkgPath >>= \pkgs ->
-      let results = listUp args pkgs in mapM_ downGrade results
+      let results = listUp args (map T.pack pkgs) in mapM_ downGrade results
