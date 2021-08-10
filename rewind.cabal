@@ -1,24 +1,11 @@
 cabal-version:      2.4
 name:               rewind
 version:            0.1.1.0
-
--- A short (one-line) description of the package.
--- synopsis:
-
--- A longer description of the package.
--- description:
-
--- A URL where users can report bugs.
--- bug-reports:
-
--- The license under which the package is released.
--- license:
+synopsis:           A CLI tool to downgrade your Pacman package using local cache.
+bug-reports:        https://github.com/kyoheiu/rewind
+license:            MIT
 author:             Kyohei Uto
 maintainer:         kyoheiu@outlook.com
-
--- A copyright notice.
--- copyright:
--- category:
 extra-source-files: CHANGELOG.md
 
 executable rewind
