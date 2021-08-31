@@ -17,7 +17,7 @@ executable rewind
     -- LANGUAGE extensions used by modules in this package.
     -- other-extensions:
     build-depends:    
-      base ^>=4.14.2.0,
+      base,
       directory,
       text,
       process
